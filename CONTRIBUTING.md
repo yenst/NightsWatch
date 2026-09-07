@@ -14,14 +14,14 @@ NightsWatch is an Omarchy Quickshell plugin. Keep the plugin manifest and QML en
 
 ```sh
 python3 scripts/install.py
-omarchy plugin enable jihmy.nightswatch --section right
+omarchy plugin enable yenst.nightswatch --section right
 ```
 
-The development installer validates and copies the runtime files into `~/.config/omarchy/plugins/jihmy.nightswatch`. It can update that plugin, leaves unrelated files alone, and does not enable it automatically. Do not symlink the checkout into the plugin directory: Omarchy's validator rejects symlinks.
+The development installer validates and copies the runtime files into `~/.config/omarchy/plugins/yenst.nightswatch`. It can update that plugin, leaves unrelated files alone, and does not enable it automatically. Do not symlink the checkout into the plugin directory: Omarchy's validator rejects symlinks.
 
 Rerun the installer after edits. If Quickshell retains an older component, run `omarchy restart shell` to clear the cache. Never edit packaged files under `/usr/share/omarchy/`.
 
-For an existing installation cloned from GitHub, prefer `omarchy plugin update jihmy.nightswatch` over mixing local development files into the managed checkout.
+For an existing installation cloned from GitHub, prefer `omarchy plugin update yenst.nightswatch` over mixing local development files into the managed checkout.
 
 ## Checks
 

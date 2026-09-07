@@ -47,11 +47,22 @@ Each row represents a distinct protocol, address, port, and process binding. A p
 ## Update or remove
 
 ```sh
-omarchy plugin update jihmy.nightswatch
-omarchy plugin remove jihmy.nightswatch
+omarchy plugin update yenst.nightswatch
+omarchy plugin remove yenst.nightswatch
 ```
 
 If the shell keeps showing old components after an update, run `omarchy restart shell`.
+
+## Migrating from the original plugin ID
+
+If you installed the early `jihmy.nightswatch` version, reinstall once under the new ID:
+
+```sh
+omarchy plugin remove jihmy.nightswatch
+omarchy plugin add https://github.com/yenst/NightsWatch.git --enable
+```
+
+Future updates use `omarchy plugin update yenst.nightswatch`.
 
 ## Implementation
 

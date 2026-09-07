@@ -4,8 +4,8 @@ import qs.Ui
 
 Panel {
     id: root
-    moduleName: "jihmy.nightswatch"
-    ipcTarget: "jihmy.nightswatch"
+    moduleName: "yenst.nightswatch"
+    ipcTarget: "yenst.nightswatch"
     implicitWidth: button.implicitWidth
     implicitHeight: button.implicitHeight
 
