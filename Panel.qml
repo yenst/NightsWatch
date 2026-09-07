@@ -18,7 +18,7 @@ Panel {
         id: button
         anchors.fill: parent
         bar: root.bar
-        text: String.fromCodePoint(0xF0200)
+        text: String.fromCodePoint(0xF1829)
         tooltipText: "NightsWatch · " + monitor.ports.filter(p => p.category === "own").length + " listening ports"
         useActiveColor: false
         dimmed: monitor.ready && monitor.ports.filter(p => p.category === "own").length === 0

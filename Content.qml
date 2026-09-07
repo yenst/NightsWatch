@@ -115,7 +115,7 @@ FocusScope {
             Icon {
                 x: root.pad
                 anchors.verticalCenter: parent.verticalCenter
-                code: 0xF0200
+                code: 0xF1829
                 font.pixelSize: Style.font.display
                 rotation: 180
                 color: root.ink
