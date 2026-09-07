@@ -686,24 +686,4 @@ FocusScope {
             }
         }
     }
-    component ActionButton: Controls.AbstractButton {
-        id: action
-        implicitWidth: label.implicitWidth + Style.space(26)
-        implicitHeight: Style.space(34)
-        activeFocusOnTab: true
-        Accessible.name: text
-        opacity: enabled ? 1 : 0.4
-        background: Rectangle {
-            color: action.hovered || action.activeFocus ? Qt.rgba(root.ink.r, root.ink.g, root.ink.b, 0.08) : "transparent"
-            border.width: 1
-            border.color: root.line
-        }
-        contentItem: Label {
-            id: label
-            text: action.text
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.font.bodySmall
-        }
-    }
 }

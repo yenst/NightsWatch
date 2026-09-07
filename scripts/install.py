@@ -14,7 +14,7 @@ if destination.exists():
     manifest = destination / 'manifest.json'
     if not manifest.is_file() or json.loads(manifest.read_text()).get('id') != 'jihmy.nightswatch':
         raise SystemExit('Destination belongs to something else; refusing to overwrite it')
-files = ['manifest.json', 'Panel.qml', 'Content.qml', 'Icon.qml', 'Service.qml', 'scripts/ports.py', 'README.md', 'LICENSE']
+files = ['manifest.json', 'Panel.qml', 'Content.qml', 'Icon.qml', 'Service.qml', 'scripts/ports.py', 'README.md', 'CONTRIBUTING.md', 'LICENSE', 'docs/screenshots/overview.png', 'docs/screenshots/detail.png']
 for name in files:
     target = destination / name
     if target.is_symlink() or target.parent.is_symlink():

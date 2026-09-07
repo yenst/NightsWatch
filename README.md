@@ -1,54 +1,64 @@
 # NightsWatch
 
-A native Omarchy bar plugin for listening ports. Designed alongside Framework Fans and Dicta: a compact charcoal panel, clear process rows, and the active desktop theme.
+A native [Omarchy](https://omarchy.org/) bar plugin for inspecting listening ports and stopping the processes behind them. Follows your desktop theme.
 
-![NightsWatch](design/implementation.png)
+![NightsWatch port list with example data](docs/screenshots/overview.png)
+
+## Install
+
+```sh
+omarchy plugin add https://github.com/yenst/NightsWatch.git --enable
+```
+
+Requires Omarchy's Quickshell-based shell, Hyprland, Python 3.9+ with Linux pidfd support, `ss` (iproute2), and `wl-copy` (wl-clipboard). No extra daemon or privileged setup.
 
 ## Use
 
-- Click the Ethernet icon in the bar to open NightsWatch. Middle-click refreshes.
-- Filter by port, process, project, address, protocol, PID, command, or folder.
-- Click a row to inspect the process, command, working directory, and address. Addresses can be copied; details are selectable.
-- Hover a row to reveal the icon-only stop action. Clicking it immediately sends SIGTERM to the owning process, affecting all its ports. There is no confirmation dialog.
-- Apps contains listeners owned by your windowed applications, matched by Hyprland PID. System contains listeners owned by other users or with unavailable ownership information. The main list shows your other listening processes.
-- Local only means loopback. All interfaces means a wildcard bind; this does not establish internet reachability. Specific address means an explicit non-loopback bind.
-- Arrow keys select rows, Enter inspects, `/` focuses search, Delete stops the selected process immediately, and Escape goes back or closes. Tab reaches controls. There is no keyboard-hint footer.
+- Click the Ethernet icon in the bar. Middle-click refreshes.
+- Search by port, process, project, address, protocol, PID, command, or folder.
+- Click a row for process details. Copy address and stop actions stay at the top; long commands have their own scroll area and copy action.
+- Hover a row to reveal the kill icon. **Clicking it immediately sends SIGTERM to the process, affecting all its ports. There is no confirmation.**
+- **Apps** groups your windowed applications using Hyprland's window PID. **System** groups other users' listeners and those with unavailable ownership. Your other listeners appear in the main list.
 
-The timestamp beside refresh is the last successful scan time. Scans run every 3 seconds while open and every 15 seconds while closed, with no overlapping scans. The icon stays available when no development ports are listening.
+The timestamp beside refresh shows the last successful scan. Refresh runs every 3 seconds while open and every 15 seconds while closed.
 
-## Requirements
+| Key | Action |
+| --- | --- |
+| `/` | Focus search |
+| Up / Down | Select a row |
+| Enter | Inspect selected row |
+| Delete | Immediately stop the selected process |
+| Escape | Go back or close |
+| Tab | Move between controls |
 
-Omarchy with its Quickshell shell, Hyprland, Python 3 with Linux pidfd support, `ss` (iproute2), and `wl-copy` (wl-clipboard). All are standard on the development machine. No additional daemon or network service is installed.
+<details>
+<summary>Process detail view</summary>
 
-## Install a local checkout
+![NightsWatch process details with example data](docs/screenshots/detail.png)
 
-```sh
-python3 scripts/install.py
-omarchy plugin enable jihmy.nightswatch --section right --after jihmy.fw-fanctrl
-```
+</details>
 
-The installer validates and copies this plugin to `~/.config/omarchy/plugins/jihmy.nightswatch`; rerun it after local edits. If Quickshell retains old component sizing, run `omarchy restart shell` once to clear its component cache. Existing unrelated files are not removed. It does not modify packaged Omarchy files or use symlinks. Enable placement can be changed with the Omarchy bar controls.
+## Why does a port appear twice?
 
-For a published Git repository, use `omarchy plugin add <repository-url> --yes`, then enable the plugin as above. This checkout has not been published.
+Each row represents a distinct protocol, address, port, and process binding. A process listening on both `127.0.0.1:3300` and `[::1]:3300` has separate IPv4 and IPv6 rows. TCP and UDP listeners on the same number are also separate. Open details to see the exact binding.
 
-Remove with `omarchy plugin remove jihmy.nightswatch`.
+**Local only** means loopback. **All interfaces** means a wildcard bind, not necessarily internet reachability. **Specific address** means an explicit non-loopback bind.
 
-## Behavior and limits
-
-TCP listeners and unconnected UDP sockets are listed. Distinct addresses and owners remain separate, so a process listening on IPv4 and IPv6 can have two rows. Up to 500 listeners are shown. Command text is capped at 2,048 characters; folder paths at 1,024. Detail actions stay at the top. Long command text scrolls inside its own bounded area and can be copied. Other long details scroll beneath the fixed toolbar. If window classification fails, a message is shown and accessible listeners remain visible. Failed scans retain the previous inventory and timestamp with an explicit error.
-
-Stopping is restricted to your user, uses a pinned process descriptor, and checks process start time before signaling. Stale identities, inaccessible processes, and unsupported safe termination fail closed. No sudo, force-kill, or process-group kill is used. A successful request means the signal was sent; the process can take time to exit or ignore SIGTERM.
-
-## Development
+## Update or remove
 
 ```sh
-omarchy plugin validate .
-python3 -m unittest discover -s tests -v
-python3 scripts/test_ui.py
+omarchy plugin update jihmy.nightswatch
+omarchy plugin remove jihmy.nightswatch
 ```
 
-The integration tests create and stop only their own disposable processes. Listener integration requires local socket access. The UI harness renders the actual QML using controlled data and exercises filtering, selection, detail navigation, immediate stopping and ownership guards, categories, and disappearing listeners. Generated captures are written into a temporary directory.
+If the shell keeps showing old components after an update, run `omarchy restart shell`.
 
-Implementation: `Panel.qml` integrates the bar and keyboard popup; `Content.qml` owns the view; `Service.qml` runs short-lived helpers; `scripts/ports.py` handles listener discovery and safe signaling. Icons come from Omarchy's installed Material Design Nerd Font glyph library.
+## Implementation
 
-Inspired by [Portwatch](https://github.com/ZerubbabelT/portwatch), with a fresh implementation and the user's fanctrl/Dicta visual references. The approved design is saved in `design/approved.png`.
+Short-lived Python helpers read `ss`, Hyprland's window list, and `/proc`. Stopping checks ownership and process start time, then signals a pinned process descriptor. No sudo, force-kill, or process-group kill. Processes may ignore SIGTERM; the list reflects whether they actually exit.
+
+Up to 500 socket bindings are shown. Commands are capped at 2,048 characters and folder paths at 1,024. Failed scans keep the previous inventory and display an error. Window matching uses exact PIDs, so separate application helper processes may appear in the main list.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local installation and tests.
+
+Inspired by [Portwatch](https://github.com/ZerubbabelT/portwatch), with a fresh implementation and a design based on Framework Fans and Dicta. Licensed under [MIT](LICENSE).
