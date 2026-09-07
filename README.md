@@ -53,17 +53,6 @@ omarchy plugin remove yenst.nightswatch
 
 If the shell keeps showing old components after an update, run `omarchy restart shell`.
 
-## Migrating from the original plugin ID
-
-If you installed the early `jihmy.nightswatch` version, reinstall once under the new ID:
-
-```sh
-omarchy plugin remove jihmy.nightswatch
-omarchy plugin add https://github.com/yenst/NightsWatch.git --enable
-```
-
-Future updates use `omarchy plugin update yenst.nightswatch`.
-
 ## Implementation
 
 Short-lived Python helpers read `ss`, Hyprland's window list, and `/proc`. Stopping checks ownership and process start time, then signals a pinned process descriptor. No sudo, force-kill, or process-group kill. Processes may ignore SIGTERM; the list reflects whether they actually exit.
