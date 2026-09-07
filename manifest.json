@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "jihmy.nightswatch",
+  "name": "NightsWatch",
+  "version": "0.1.0",
+  "author": "jihmy",
+  "license": "MIT",
+  "description": "A quiet, native view of listening ports and the processes behind them.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {"barWidget": "Panel.qml"},
+  "barWidget": {
+    "displayName": "NightsWatch",
+    "description": "Inspect listening ports and stop your processes.",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
