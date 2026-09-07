@@ -14,7 +14,7 @@ Requires Omarchy's Quickshell-based shell, Hyprland, Python 3.9+ with Linux pidf
 
 ## Use
 
-- Click the Ethernet icon in the bar. Middle-click refreshes.
+- Click the shield icon in the bar. Middle-click refreshes.
 - Search by port, process, project, address, protocol, PID, command, or folder.
 - Click a row for process details. Copy address and stop actions stay at the top; long commands have their own scroll area and copy action.
 - Hover a row to reveal the kill icon. **Clicking it immediately sends SIGTERM to the process, affecting all its ports. There is no confirmation.**
