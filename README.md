@@ -2,7 +2,7 @@
 
 A native [Omarchy](https://omarchy.org/) bar plugin for inspecting listening ports and stopping the processes behind them. Follows your desktop theme.
 
-![NightsWatch port list with example data](docs/screenshots/overview.png)
+![NightsWatch port list with example data](preview.png)
 
 ## Install
 
@@ -55,7 +55,7 @@ If the shell keeps showing old components after an update, run `omarchy restart 
 
 ## Implementation
 
-Short-lived Python helpers read `ss`, Hyprland's window list, and `/proc`. Stopping checks ownership and process start time, then signals a pinned process descriptor. No sudo, force-kill, or process-group kill. Processes may ignore SIGTERM; the list reflects whether they actually exit.
+Short-lived Python helpers read `ss`, Hyprland's window list, and `/proc`. Stopping checks ownership and process start time, then signals a pinned process descriptor. Runs with normal user permissions; only processes owned by the current user can be stopped. Never sends SIGKILL or signals process groups. Processes may ignore SIGTERM; the list reflects whether they actually exit.
 
 Up to 500 socket bindings are shown. Commands are capped at 2,048 characters and folder paths at 1,024. Failed scans keep the previous inventory and display an error. Window matching uses exact PIDs, so separate application helper processes may appear in the main list.
 
