@@ -102,10 +102,6 @@ FocusScope {
         }
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: Color.popups.background
-    }
     Column {
         anchors.fill: parent
         Item {

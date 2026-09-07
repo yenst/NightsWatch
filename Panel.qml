@@ -35,7 +35,9 @@ Panel {
         owner: root
         bar: root.bar
         open: root.opened
-        padding: 0
+        // Keep edge-to-edge rows on square themes, but respect the native
+        // content inset when the popup has rounded corners.
+        padding: Style.cornerRadius > 0 ? Style.spacing.popupPadding : 0
         contentWidth: popup.fittedContentWidth(Style.space(400))
         contentHeight: popup.fittedContentHeight(content.implicitHeight)
         focusTarget: content
